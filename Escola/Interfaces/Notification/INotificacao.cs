@@ -6,5 +6,5 @@ namespace Escola.Interfaces.Notification;
         void AdicionarNotificacoes(string mensagem, TipoNotificacaoEnum tipo);
         bool TemNotificacao();
         void Limpar();
-        IReadOnlyCollection<object> ExibirNotificacoes();
+        public string ExibirNotificacoes();
     }

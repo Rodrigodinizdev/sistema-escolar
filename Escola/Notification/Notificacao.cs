@@ -13,17 +13,25 @@ public class Notificacao : INotificacao
             Tipo = tipo;
         }
         public string Texto { get; private set; }
-        public TipoNotificacaoEnum Tipo { get; private set; } 
+        public TipoNotificacaoEnum Tipo { get; private set; }
     }
 
     private List<Mensagem> _mensagens = [];
 
     public void AdicionarNotificacoes(string mensagem, TipoNotificacaoEnum tipo) => _mensagens.Add(new Mensagem(mensagem, tipo));
-    
+
     public bool TemNotificacao() => _mensagens.Any();
-   
+
     public void Limpar() => _mensagens.Clear();
-  
-    public IReadOnlyCollection<object> ExibirNotificacoes() => _mensagens;
+
+    public string ExibirNotificacoes()
+    {
+        if (!_mensagens.Any())
+            return string.Empty;
+
+        var resultado = string.Join("\n", _mensagens.Select(m => m.Texto));
+        Limpar();
+        return resultado;
+    }
 
 }
