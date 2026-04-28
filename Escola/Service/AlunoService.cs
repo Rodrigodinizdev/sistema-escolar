@@ -20,16 +20,6 @@ public class AlunoService(IAlunoRepository alunoRepository) : IAlunoService
         return $"{aluno} Matriculado com sucesso!";
     }
 
-    public Aluno BuscarAlunoPeloId(Guid id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Aluno BuscarAlunoPeloNome(string nome)
-    {
-        throw new NotImplementedException();
-    }
-
     public List<Aluno> ListarAlunos()
     {
         return _alunoRepository.ListarAlunos();

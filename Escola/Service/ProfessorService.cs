@@ -20,16 +20,6 @@ namespace Escola.Service;
         return $"{professor} Adicionado com sucesso!";
     }
 
-    public Professor BuscarProfessorPeloId(Guid id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Professor BuscarProfessorPeloNome(string nome)
-    {
-        throw new NotImplementedException();
-    }
-
     public List<Professor> ListarProfessor()
     {
         return _professorRepository.ListarProfessor();

@@ -6,5 +6,5 @@ namespace Escola.Interfaces.Services;
     {
         string AdicionarTurma(TurmaDto dto);
         List<Turma> ListarTurmas();
-        Turma BuscarTurmaPeloId(Guid id);
+
     }

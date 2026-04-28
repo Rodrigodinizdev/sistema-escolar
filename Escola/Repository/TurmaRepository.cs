@@ -13,4 +13,6 @@ public class TurmaRepository : ITurmaRepository
 
     public List<Turma> ListarTurmas() => _turmas;
 
+    public Turma BuscarTurmaPeloNome(string nome) => _turmas.FirstOrDefault(t => t.Nome.Equals(nome, StringComparison.OrdinalIgnoreCase));
+
 }

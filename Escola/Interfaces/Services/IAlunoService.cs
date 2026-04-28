@@ -6,6 +6,5 @@ namespace Escola.Interfaces.Services;
     {
         string AdicionarAluno(AlunoDto dto);
         List<Aluno> ListarAlunos();
-        Aluno BuscarAlunoPeloNome(string nome);
-        Aluno BuscarAlunoPeloId(Guid id);
+    
     }

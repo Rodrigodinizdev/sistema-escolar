@@ -1,12 +1,15 @@
 using Escola.DTOs;
+using Escola.Enums;
 using Escola.Interfaces.Services;
+using Escola.Service;
 namespace Escola.Ui;
 
-public class MenuEscola(IAlunoService alunoService, IProfessorService professorService, ITurmaService turmaService)
+public class MenuEscola(IAlunoService alunoService, IProfessorService professorService, ITurmaService turmaService, IAvaliacaoService avaliacaoService)
 {
     private readonly IAlunoService _alunoService = alunoService;
     private readonly IProfessorService _professorService = professorService;
     private readonly ITurmaService _turmaService = turmaService;
+    private readonly IAvaliacaoService _avaliacaoService = avaliacaoService;
 
     public void Menu()
     {
@@ -42,6 +45,7 @@ public class MenuEscola(IAlunoService alunoService, IProfessorService professorS
                     break;
 
                 case "4":
+                    RealizarAvaliacao();
                     break;
 
                 case "5":
@@ -248,5 +252,80 @@ public class MenuEscola(IAlunoService alunoService, IProfessorService professorS
 
         foreach (var turma in turmas)
             Console.WriteLine(turma);
+    }
+
+    private void RealizarAvaliacao()
+    {
+        Console.Clear();
+        Console.WriteLine("=== REALIZAR AVALIAÇÃO ===");
+
+        var alunos = _alunoService.ListarAlunos();
+        if (!alunos.Any())
+        {
+            Console.WriteLine("Nenhum aluno cadastrado.");
+            return;
+        }
+
+        alunos = _alunoService.ListarAlunos();
+        foreach (var aluno in alunos)
+            Console.WriteLine($"{aluno.Id} | {aluno.NomeCompleto}");
+
+        Console.Write("Digite o Id do Aluno: ");
+        Guid idAluno;
+        while (!Guid.TryParse(Console.ReadLine(), out idAluno))
+            Console.WriteLine("ERRO: Id do Aluno inválido");
+
+        var turmas = _turmaService.ListarTurmas();
+        if (!turmas.Any())
+        {
+            Console.WriteLine("Nenhuma turma cadastrada.");
+            return;
+        }
+
+        turmas = _turmaService.ListarTurmas();
+        foreach (var turma in turmas)
+            Console.WriteLine($"{turma.Id} | {turma.Nome} | {turma.Professor} | {turma.Turno}");
+
+        Console.Write("Digite o Id da turma: ");
+        Guid idTurma;
+        while (!Guid.TryParse(Console.ReadLine(), out idTurma))
+            Console.WriteLine("ERRO: Id da turma inválido");
+
+        Console.WriteLine("\n=== TIPO DE AVALIAÇÃO ===");
+        Console.WriteLine("1 - Prova");
+        Console.WriteLine("2 - Trabalho");
+        Console.Write("Escolha o tipo: ");
+        int escolha;
+        while (!int.TryParse(Console.ReadLine(), out escolha) || escolha < 1 || escolha > 2)
+            Console.WriteLine("Opção inválida.");
+            
+        var tipo = escolha == 1 ? TipoAvaliacaoEnum.Prova : TipoAvaliacaoEnum.Trabalho;
+
+        Console.Write("\nDigite o título da avaliação: ");
+        string titulo = Console.ReadLine().Trim();
+        while (string.IsNullOrWhiteSpace(titulo))
+        {
+            Console.WriteLine("Título não pode ser vazio.");
+            Console.Write("Digite o título da avaliação: ");
+            titulo = Console.ReadLine().Trim();
+        }
+
+        Console.Write("Digite a data da avaliação (dd/MM/yyyy): ");
+        DateTime dataAvaliacao;
+        while (!DateTime.TryParse(Console.ReadLine(), out dataAvaliacao))
+        {
+            Console.WriteLine("Data inválida, use o formato dd/MM/yyyy.");
+            Console.Write("Digite a data da avaliação (dd/MM/yyyy): ");
+        }
+
+        Console.Write("Digite a nota (0,0 a 10,0): ");
+        decimal nota;
+        while (!decimal.TryParse(Console.ReadLine(), out nota) || nota < 0 || nota > 10)
+        {
+            Console.WriteLine("Nota inválida, digite um valor entre 0,0 e 10,0.");
+            Console.Write("Digite a nota (0,0 a 10,0): ");
+        }
+
+        Console.WriteLine(_avaliacaoService.AdicionarAvaliacao(new AvaliacaoDto(idAluno, idTurma, tipo, titulo, dataAvaliacao, nota)));
     }
 }

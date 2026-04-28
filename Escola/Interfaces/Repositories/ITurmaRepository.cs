@@ -7,4 +7,5 @@ namespace Escola.Interfaces.Repositories;
         void AdicionarTurma(Turma turma);
         List<Turma> ListarTurmas();
         Turma BuscarTurmaPeloId(Guid id);
+        Turma BuscarTurmaPeloNome(string nome);
     }

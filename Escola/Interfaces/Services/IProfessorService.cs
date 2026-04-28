@@ -6,6 +6,5 @@ namespace Escola.Interfaces.Services;
     {
         string AdicionarProfessor(ProfessorDto dto);
         List<Professor> ListarProfessor();
-        Professor BuscarProfessorPeloNome(string nome);
-        Professor BuscarProfessorPeloId(Guid id);
+    
     }

@@ -24,11 +24,7 @@ namespace Escola.Service;
         return "Turma cadastrada com sucesso";
     }
 
-    public Turma BuscarTurmaPeloId(Guid id)
-    {
-        throw new NotImplementedException();
-    }
-
+  
     public List<Turma> ListarTurmas()
     {
         return _turmaRepository.ListarTurmas();
